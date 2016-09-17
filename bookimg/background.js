@@ -3,11 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// React when a browser action's icon is clicked.
-chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.tabs.executeScript(null, {file: "content_script.js"});
-});
-
 /**
  * Returns a handler which will open a new window when activated.
  */
@@ -21,6 +16,11 @@ function getClickHandler() {
     chrome.windows.create({ url: url });
   };
 };
+
+// React when a browser action's icon is clicked.
+chrome.browserAction.onClicked.addListener(function(tab) {
+  chrome.tabs.executeScript(null, {file: "content_script.js"});
+});
 
 /**
  * Create a context menu which will only show up for images.

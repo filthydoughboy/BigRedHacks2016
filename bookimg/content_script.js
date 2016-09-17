@@ -53,8 +53,17 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
-document.body.style.backgroundColor="red"
-console.log('hello');
+var dialog = document.createElement("dialog");
+dialog.textContent = 'Dialog';
+var button = document.createElement("button");
+button.textContent = "Close";
+dialog.appendChild(button);
+button.addEventListener("click", function() {
+  dialog.close();
+})
+document.body.appendChild(dialog);
+dialog.showModal();
+
 getCurrentTabUrl(function(url) {
-  prompt('Current URL: ' + url);
+  console.log(''+url);
 });
