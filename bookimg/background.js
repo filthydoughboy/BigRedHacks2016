@@ -65,6 +65,11 @@ chrome.runtime.onMessage.addListener(
       chrome.tabs.create({ url: "seemore.html"});
       sendResponse({}); // sending back empty response to sender
       break;
+    case "link":
+      var url = 'https://www.amazon.com/Master-Tower-Erection-Enhancer-Anal/dp/B0080ID1I2/ref=sr_1_4_a_it?ie=UTF8&qid=1474139689&sr=8-4&keywords=butt+plug';
+      chrome.tabs.create({ url: url});
+      sendResponse({}); // sending back empty response to sender
+      break;
     default:
       // helps debug when request directive doesn't match
       alert("Unmatched request of '" + request + "' from script to background.js from " + sender);
