@@ -53,17 +53,28 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
+function onSave() {
+
+}
+
 var dialog = document.createElement("dialog");
-dialog.textContent = 'Dialog';
-var button = document.createElement("button");
-button.textContent = "Close";
-dialog.appendChild(button);
-button.addEventListener("click", function() {
+dialog.textContent = "Hello";
+var save_button = document.createElement("button");
+var close_button = document.createElement("button");
+save_button.textContent = "Save";
+close_button.textContent = "Close";
+dialog.appendChild(save_button);
+dialog.appendChild(close_button);
+save_button.addEventListener("click", function() {
+  onSave();
+  dialog.close();
+})
+close_button.addEventListener("click", function() {
   dialog.close();
 })
 document.body.appendChild(dialog);
 dialog.showModal();
 
-getCurrentTabUrl(function(url) {
-  console.log(''+url);
-});
+// getCurrentTabUrl(function(url) {
+//   console.log(url)
+// });
