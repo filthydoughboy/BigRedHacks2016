@@ -1,12 +1,18 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
+// Copyright (c) 2016 Yujin Koh, Sung Won An, Jonathan Park, Thomas Lee. 
+// All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /**
  * Get the current URL.
- *
+ * 
  * @param {function(string)} callback - called when the URL of the current tab
  *   is found.
+ *
+ * Author: 2014 The Chromium Authors
+ * URL: https://developer.chrome.com/extensions/getstarted
+ * Date of retrieval: Spetember 17, 2016
+ * License: https://creativecommons.org/licenses/by/3.0/
  */
 function getCurrentTabUrl(callback) {
   // Query filter to be passed to chrome.tabs.query - see
@@ -49,8 +55,7 @@ function getCurrentTabUrl(callback) {
 
 // React when a browser action's icon is clicked.
 chrome.browserAction.onClicked.addListener(function(tab) {
-  console.log('Current URL: ');
-  // getCurrentTabUrl(function(url) {
-  //   console.log('Current URL: ' + url);
-  // });
+  getCurrentTabUrl(function(url) {
+    console.log('Current URL: ' + url);
+  });
 });
