@@ -59,3 +59,27 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     console.log('Current URL: ' + url);
   });
 });
+
+/**
+ * Returns a handler which will open a new window when activated.
+ */
+function getClickHandler() {
+  return function(info, tab) {
+
+    // The srcUrl property is only available for image elements.
+    var url = 'https://www.amazon.com/Master-Tower-Erection-Enhancer-Anal/dp/B0080ID1I2/ref=sr_1_4_a_it?ie=UTF8&qid=1474139689&sr=8-4&keywords=butt+plug';
+
+    // Create a new window to the info page.
+    chrome.windows.create({ url: url });
+  };
+};
+
+/**
+ * Create a context menu which will only show up for images.
+ */
+chrome.contextMenus.create({
+  "title" : "Get image info",
+  "type" : "normal",
+  "contexts" : ["image", "browser_action"],
+  "onclick" : getClickHandler()
+});
