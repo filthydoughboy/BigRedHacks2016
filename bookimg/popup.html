@@ -7,19 +7,10 @@
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
-    </style>
+    <style type="text/css" media="screen">
+            body { min-width:250px; text-align: center; }
+            #click-me { font-size: 20px; }
+        </style>
 
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
@@ -30,8 +21,10 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
+    <body>
+        <button id='see-more'>See More!</button>
+    </body>
+
   </body>
 </html>
 
