@@ -3,19 +3,22 @@
 
   "name": "Bookimg",
   "description": "This extension allows users to create a Bookmark with a Screenshot",
-  "version": "1.0",
+  "version": "1.3",
 
   "browser_action": {
     "default_icon": "icon.png",
-    "default_title": "Screenshot Bookmark"
+    "default_title": "Screenshot Bookmark",
+    "default_popup" : "popup.html"
   },
   "background": {
   	"scripts": ["background.js"]
   },
   "permissions": [
     "activeTab",
-    "http://*/",
-  	"https://*/"
-
+    "https://ajax.googleapis.com/",
+    "contextMenus",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ]
 }
