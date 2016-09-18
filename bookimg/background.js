@@ -48,6 +48,12 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
+// chrome.tabs.query({}, function(tabs) {
+//   for (var i = 0; i < tabs.length; i++) {
+//     chrome.pageAction.show(tabs[i].id);
+//   }
+// });
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     switch (request.directive) {
@@ -91,23 +97,27 @@ chrome.runtime.onMessage.addListener(
                 'curr_url': url,
                 'img_url': imageUrl
               });
+              sendResponse({}); // sending back empty response to sender
             });
           });
         });
       });
-      sendResponse({}); // sending back empty response to sender
       break;
     case "seemore":
-      chrome.tabs.create({ url: "seemore.html"}, function(tab) {
-        chrome.storage.local.get('bookmarks', function(result) {
-          chrome.tabs.sendMessage(tab.id, result.bookmarks);
+      chrome.tabs.create({ url: "seemore.html"}, function(tab0) {
+        chrome.storage.local.get('bookmarks', function(result){
+          var bookmarks = (Object.keys(result).length == 0) ? [] : result.bookmarks;
+          // if (chrome.runtime.lastError) {
+          //   console.log(chrome.runtime.lastError.message);
+          // }
+          chrome.tabs.sendMessage(tab0.id, {directive: 'display', 'bookmarks': bookmarks});
+          sendResponse({}); // sending back empty response to sender
         });
       });
-      sendResponse({}); // sending back empty response to sender
       break;
     case "popup":
       chrome.storage.local.get('bookmarks', function(result){
-        var bookmarks = result.bookmarks;
+        var bookmarks = (Object.keys(result).length == 0) ? [] : result.bookmarks;
         var message = (bookmarks.length <= 5) ? bookmarks : bookmarks.slice(bookmarks.length-5);
         sendResponse({'message': message});
       });
@@ -132,7 +142,7 @@ chrome.runtime.onMessage.addListener(
           'bookmarks': bookmarks
         });
       });
-      sendResponse({}); // sending back empty response to sender
+      //sendResponse({}); // sending back empty response to sender
       break;
     default:
       // helps debug when request directive doesn't match

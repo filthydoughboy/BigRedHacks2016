@@ -3,13 +3,13 @@
 // found in the LICENSE file.
 
 
-function screenshotHandler(e) {
+function screenshotHandler() {
   chrome.runtime.sendMessage({directive: "screenshot"}, function(response) {
       this.close(); // close the popup when the background finishes processing request
   });
 }
 
-function seeMoreHandler(e) {
+function seeMoreHandler() {
   chrome.runtime.sendMessage({directive: "seemore"}, function(response) {
       this.close(); // close the popup when the background finishes processing request
   });
