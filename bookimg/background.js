@@ -88,7 +88,7 @@ chrome.runtime.onMessage.addListener(
           chrome.tabs.executeScript({file: 'dialog.js'}, function() {
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
               chrome.tabs.sendMessage(tabs[0].id, {
-                current_url: url,
+                curr_url: url,
                 img_url: imageUrl
               });
             });
@@ -98,12 +98,38 @@ chrome.runtime.onMessage.addListener(
       sendResponse({}); // sending back empty response to sender
       break;
     case "seemore":
-      chrome.tabs.create({ url: "seemore.html"});
+      chrome.tabs.create({ url: "seemore.html"}, function(tab) {
+        chrome.storage.local.get('bookmarks', function(result){
+          chrome.tabs.sendMessage(tab.id, result.bookmarks);
+        });
+      });
       sendResponse({}); // sending back empty response to sender
       break;
-    case "link":
-      var url = 'https://www.amazon.com/Master-Tower-Erection-Enhancer-Anal/dp/B0080ID1I2/ref=sr_1_4_a_it?ie=UTF8&qid=1474139689&sr=8-4&keywords=butt+plug';
-      chrome.tabs.create({ url: url});
+    case "popup":
+      chrome.storage.local.get('bookmarks', function(result){
+        var bookmarks = result.bookmarks;
+        var message = (bookmarks.length <= 5) ? bookmarks : bookmarks.slice(bookmarks.length-5);
+        sendResponse({'message': message});
+      });
+      return true;
+    case "save":
+      // Get a value saved in a form.
+      // Check that there's some code there.
+      if (!request.curr_url || !request.img_url) {   
+        return;
+      }
+      // Save it using the Chrome extension storage API.
+      chrome.storage.local.get('bookmarks', function(result){
+        console.log(result);
+        var bookmarks = (Object.keys(result).length == 0) ? [] : result.bookmarks;
+        bookmarks.push({
+          'url': request.curr_url, 
+          'imageurl': request.img_url
+        });
+        chrome.storage.local.set({
+          'bookmarks': bookmarks
+        });
+      });
       sendResponse({}); // sending back empty response to sender
       break;
     default:

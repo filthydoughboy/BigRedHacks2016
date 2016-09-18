@@ -3,24 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-function onSave() {
-  // Get a value saved in a form.
-  var theURL = url;
-  var theImageURL = image_url;
-  // Check that there's some code there.
-  if (!theURL || !theImageURL) {
-    
-    return;
-  }
-  // Save it using the Chrome extension storage API.
-  chrome.storage.sync.set({'url': theURL, 'imageurl': theImageURL}, function() {
-    // Notify that we saved.
-  });
-  console.log("save");
-  console.log("save");
-};
-
-
 chrome.runtime.onMessage.addListener(
   function listener(message, sender, sendResponse) {
     var dialog = document.createElement("dialog");
@@ -54,10 +36,14 @@ chrome.runtime.onMessage.addListener(
     var save_button = document.createElement("button");
     save_button.textContent = "Save";
     save_button.addEventListener("click", function() {
-      onSave();
-      dialog.close();
-      document.body.removeChild(dialog);
-      chrome.runtime.onMessage.removeListener(listener);
+        chrome.runtime.sendMessage({
+            directive: "save", 
+            curr_url: message.curr_url,
+            img_url: message.img_url
+        });
+        dialog.close();
+        document.body.removeChild(dialog);
+        chrome.runtime.onMessage.removeListener(listener);
     })
     
     var close_button = document.createElement("button");
