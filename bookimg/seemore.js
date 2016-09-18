@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 chrome.runtime.onMessage.addListener(
-  function listener(message, sender, sendResponse) {
+  function(message, sender, sendResponse) {
   	var content = document.getElementById('content');
     for (i = 0; i < message.length; i++) { 
     	var item = document.createElement("li");

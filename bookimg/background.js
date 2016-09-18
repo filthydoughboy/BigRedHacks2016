@@ -100,6 +100,9 @@ chrome.runtime.onMessage.addListener(
     case "seemore":
       chrome.tabs.create({ url: "seemore.html"}, function(tab) {
         chrome.storage.local.get('bookmarks', function(result){
+          if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+          } 
           chrome.tabs.sendMessage(tab.id, result.bookmarks);
         });
       });
