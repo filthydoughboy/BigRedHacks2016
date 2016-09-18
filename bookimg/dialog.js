@@ -9,21 +9,21 @@ function onSave() {
 
 
 chrome.runtime.onMessage.addListener(
-  function(message, sender, sendResponse) {
+  function listener(message, sender, sendResponse) {
     var dialog = document.createElement("dialog");
     dialog.style.width = '500px';
-    dialog.style.height = '700px';
+    dialog.style.height = '450px';
     document.body.appendChild(dialog);
 
     var dialog_div = document.createElement("div");
     dialog_div.style.display = 'flex';
     dialog_div.style['flex-direction'] = 'column';
+    dialog_div.style['justify-content'] = 'center';
     dialog.appendChild(dialog_div);
     
     var image = document.createElement("img");
     image.src = message.img_url;
-    image.style.width = "400px";
-    image.style.height = "300px";
+    image.style.height = "350px";
     dialog_div.appendChild(image);
 
     var title_input = document.createElement("input");
@@ -43,12 +43,16 @@ chrome.runtime.onMessage.addListener(
     save_button.addEventListener("click", function() {
       onSave();
       dialog.close();
+      document.body.removeChild(dialog);
+      chrome.runtime.onMessage.removeListener(listener);
     })
     
     var close_button = document.createElement("button");
     close_button.textContent = "Close";
     close_button.addEventListener("click", function() {
       dialog.close();
+      document.body.removeChild(dialog);
+      chrome.runtime.onMessage.removeListener(listener);
     })
 
     var button_panel = document.createElement("div");
@@ -56,13 +60,10 @@ chrome.runtime.onMessage.addListener(
     button_panel.appendChild(close_button);
     button_panel.style.display = 'flex';
     button_panel.style['flex-direction'] = 'row';
+    button_panel.style['justify-content'] = 'center';
 
     dialog_div.appendChild(button_panel);
     dialog.showModal();
   }
 );
-
-$(window).resize(function() {
-  $("#dialog").dialog("option", "position", "center");
-});
 
