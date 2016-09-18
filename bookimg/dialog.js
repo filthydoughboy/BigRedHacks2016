@@ -4,6 +4,19 @@
 // found in the LICENSE file.
 
 function onSave() {
+  // Get a value saved in a form.
+  var theURL = url;
+  var theImageURL = image_url;
+  // Check that there's some code there.
+  if (!theURL || !theImageURL) {
+    
+    return;
+  }
+  // Save it using the Chrome extension storage API.
+  chrome.storage.sync.set({'url': theURL, 'imageurl': theImageURL}, function() {
+    // Notify that we saved.
+  });
+  console.log("save");
   console.log("save");
 };
 
