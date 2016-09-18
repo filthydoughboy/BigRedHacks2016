@@ -88,8 +88,8 @@ chrome.runtime.onMessage.addListener(
           chrome.tabs.executeScript({file: 'dialog.js'}, function() {
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
               chrome.tabs.sendMessage(tabs[0].id, {
-                curr_url: url,
-                img_url: imageUrl
+                'curr_url': url,
+                'img_url': imageUrl
               });
             });
           });
@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener(
       break;
     case "seemore":
       chrome.tabs.create({ url: "seemore.html"}, function(tab) {
-        chrome.storage.local.get('bookmarks', function(result){
+        chrome.storage.local.get('bookmarks', function(result) {
           chrome.tabs.sendMessage(tab.id, result.bookmarks);
         });
       });
@@ -124,7 +124,9 @@ chrome.runtime.onMessage.addListener(
         var bookmarks = (Object.keys(result).length == 0) ? [] : result.bookmarks;
         bookmarks.push({
           'url': request.curr_url, 
-          'imageurl': request.img_url
+          'img_url': request.img_url,
+          'tit': request.tit,
+          'desc': request.desc
         });
         chrome.storage.local.set({
           'bookmarks': bookmarks

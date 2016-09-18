@@ -17,13 +17,16 @@ function seeMoreHandler(e) {
 
 document.addEventListener('DOMContentLoaded', function () {
   chrome.runtime.sendMessage({directive: "popup"}, function(response) {
-     console.log("ERROR: ", chrome.runtime.lastError);
-    console.log(response);
     var message = response.message;
     var mostrecent = document.getElementById('mostrecent');
     for (i = message.length-1; i >= 0; i--) { 
+      var titleEl = document.createElement('p');
+      var title = document.createTextNode(message[i].tit);
+      titleEl.appendChild(title);
+      mostrecent.appendChild(titleEl);
+
       var image = document.createElement('img');
-      image.src = message[i].imageurl;
+      image.src = message[i].img_url;
       image.style.height = "200px";
       mostrecent.appendChild(image);
     }

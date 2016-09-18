@@ -29,21 +29,23 @@ chrome.runtime.onMessage.addListener(
 
     var description_input = document.createElement("input");
     description_input.type = "text";
-    description_input.name = "Title";
+    description_input.name = "Desc";
     description_input.value = "Please insert a description"; 
     dialog_div.appendChild(description_input);
 
     var save_button = document.createElement("button");
     save_button.textContent = "Save";
     save_button.addEventListener("click", function() {
-        chrome.runtime.sendMessage({
-            directive: "save", 
-            curr_url: message.curr_url,
-            img_url: message.img_url
-        });
-        dialog.close();
-        document.body.removeChild(dialog);
-        chrome.runtime.onMessage.removeListener(listener);
+      chrome.runtime.sendMessage({
+        directive: "save", 
+        curr_url: message.curr_url,
+        img_url: message.img_url,
+        tit: document.getElementsByName("Title")[0].value,
+        desc: document.getElementsByName("Desc")[0].value
+      });
+      dialog.close();
+      document.body.removeChild(dialog);
+      chrome.runtime.onMessage.removeListener(listener);
     })
     
     var close_button = document.createElement("button");
